@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lembretes Fácil</title>
+    
+    <link rel="stylesheet" href="css/1-variaveis.css">
+    <link rel="stylesheet" href="css/2-layout.css">
+    <link rel="stylesheet" href="css/3-header.css">
+    <link rel="stylesheet" href="css/4-abas.css">
+    <link rel="stylesheet" href="css/5-dropzone.css">
+    <link rel="stylesheet" href="css/6-cards.css">
+    <link rel="stylesheet" href="css/7-botoes.css">
+    <link rel="stylesheet" href="css/8-modais.css">
+    <link rel="stylesheet" href="css/9-animacoes.css">
+    <link rel="stylesheet" href="css/10-login.css">
+    <link rel="stylesheet" href="css/11-termos.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <div class="mouse-shadow" id="mouseShadow"></div>
+
+    <header class="app-header" id="appHeader">
+        <h1 id="appTitle" class="animated-brand-text">Lembretes Fácil</h1>
+        <div class="header-actions" id="headerActions">
+            <button id="btnConfig" class="icon-btn" title="Personalizar Mensagem">📧</button>
+            <button id="btnTheme" class="icon-btn" title="Alternar Tema">☀️</button>
+            <button id="btnTermos" class="icon-btn" title="Termos de Uso">❓</button>
+        </div>
+    </header>
+
+    <div id="loginWrapper" class="login-wrapper">
+        <div class="login-card">
+            <h2 class="form-title">Acesso ao Sistema</h2>
+            <p class="form-subtitle">Insira as suas credenciais para entrar.</p>
+            
+            <div class="form-group">
+                <label>E-mail</label>
+                <input type="email" placeholder="seu@email.com" autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label>Senha</label>
+                <input type="password" placeholder="••••••••">
+            </div>
+            
+            <button id="btnEntrar" class="login-btn-submit">Entrar</button>
+        </div>
+    </div>
+
+    <div id="floatingTabs" class="floating-tabs app-hidden">
+        <div class="active-bg" id="activeBg"></div>
+        <button class="tab-btn active" data-tab="pendentes">Pendentes (0)</button>
+        <button class="tab-btn" data-tab="enviados">Enviados (0)</button>
+        <button class="tab-btn" data-tab="erros">Erros (0)</button>
+    </div>
+
+    <div class="app-container app-hidden" id="appContainer">
+        <div class="left-panel">
+            <div id="dropZone" class="drop-zone">
+                <div class="text-container">
+                    <h2 id="dropTitle">
+                        <span class="drop-emoji-large">📄</span>
+                        Solte o PDF
+                    </h2>
+                    <p id="dropSubtitle">Arraste o seu agendamento para cá</p>
+                </div>
+            </div>
+            <button id="btnExcluir" class="btn-excluir">Excluir Arquivo</button>
+        </div>
+        <div id="contentArea" class="content-area"></div>
+    </div>
+
+    <div id="configModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Personalizar Mensagem</h2>
+            <p class="modal-hint">
+                <strong>Dica:</strong> Clique nas tags abaixo para copiar e dê <em>Ctrl+V</em> no texto!<br><br>
+                <span class="tag-badge" onclick="copiarTag(this)">{{nome}}</span>
+                <span class="tag-badge" onclick="copiarTag(this)">{{data}}</span>
+                <span class="tag-badge" onclick="copiarTag(this)">{{horario}}</span>
+                <span class="tag-badge" onclick="copiarTag(this)">{{medico}}</span>
+                <span class="tag-badge" onclick="copiarTag(this)">{{emoji_medico}}</span>
+            </p>
+            <textarea id="msgTemplateInput"></textarea>
+            <div class="modal-buttons">
+                <button id="btnCancelConfig" class="btn-cancel">Cancelar</button>
+                <button id="btnSaveConfig" class="btn-save">Salvar Mensagem</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="termosOverlay" class="termos-overlay">
+        <button class="btn-fechar-overlay" id="btnFecharTermos" title="Fechar">✖</button>
+        <div class="termos-cards-wrapper">
+            <div class="termo-card">
+                <h3 class="termo-title">🔒 LEMBRETES FÁCIL — TERMOS DE USO</h3>
+                <div class="termo-text">
+                    <p><strong>Licenciante:</strong> Lembretes Fácil<br>
+                    <hr>
+                    <h4>1. Natureza do Software e Armazenamento de Dados</h4>
+                    <p>O Lembretes Fácil é uma aplicação que opera <strong>exclusivamente neste programa, instalado no seu computador</strong>.</p>
+                    <p><strong>Todos os dados inseridos</strong> (como PDFs de agendamento) são lidos em tempo real e descartados quando a aba é fechada ou o arquivo é excluído. As personalizações são <strong>armazenadas localmente</strong> no seu dispositivo.</p>
+                    <p>Nenhum dado do paciente é enviado ou armazenado em servidores externos.</p>
+                    <hr>
+                    <h4>2. Responsabilidade do Utilizador</h4>
+                    <p>As mensagens geradas são enviadas usando o WhatsApp local. É da responsabilidade do utilizador garantir que os lembretes são direcionados aos pacientes corretos e que o conteúdo respeita as regras da clínica.</p>
+                    <hr>
+                    <h4>3. Isenção de Garantias</h4>
+                    <p>O Software é fornecido para auxiliar a produtividade. O utilizador deve conferir as informações extraídas do PDF antes do envio. O Licenciante não se responsabiliza por dados incorretos preenchidos na base original do agendamento.</p>
+                </div>
+            </div>
+            
+            <div class="termo-card">
+                <h3 class="termo-title">🛡️ POLÍTICA DE PRIVACIDADE</h3>
+                <div class="termo-text">
+                    <hr>
+                    <h4>1. Princípio Fundamental: Os Seus Dados São Apenas Seus</h4>
+                    <p>O Lembretes Fácil foi desenvolvido com o princípio de <strong>privacidade total</strong>:</p>
+                    <ul>
+                        <li>Nenhum dado é coletado, armazenado ou transmitido remotamente.</li>
+                        <li>Tudo o que o sistema lê do PDF permanece <strong>apenas na memória viva do seu dispositivo</strong>.</li>
+                    </ul>
+                    <hr>
+                    <h4>2. Segurança dos Dados</h4>
+                    <p>Como o processamento é 100% local, a segurança das informações médicas depende <strong>diretamente da proteção do seu computador</strong> e da sua conta do WhatsApp.</p>
+                    <hr>
+                    <h4>3. Cookies e Serviços de Terceiros</h4>
+                    <p>O sistema <strong>não utiliza cookies de rastreamento nem serviços de terceiros</strong> para análise de uso.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/A-estado.js"></script>
+    <script src="js/B-tema.js"></script>
+    <script src="js/C-interface.js"></script>
+    <script src="js/D-pdf.js"></script>
+    <script src="js/E-botoes.js"></script>
+    <script src="js/F-animacoes.js"></script>
+    <script src="js/G-login.js"></script>
+</body>
+</html>

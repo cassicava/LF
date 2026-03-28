@@ -1,0 +1,63 @@
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-card {
+    0% { transform: scale(1); box-shadow: 0 4px 15px var(--shadow-color); }
+    50% { transform: scale(1.05); box-shadow: 0 10px 30px rgba(18, 140, 126, 0.3); }
+    100% { transform: scale(1); box-shadow: 0 4px 15px var(--shadow-color); }
+}
+
+@keyframes gear-spin {
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes flyOut {
+    0% { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.5) rotate(var(--rot)); opacity: 0; }
+}
+
+@keyframes slideUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.drop-zone.dragover::before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border: 3px dashed var(--primary-color);
+    border-radius: 50%;
+    animation: spin 15s linear infinite;
+    pointer-events: none;
+}
+
+.spinning-gear {
+    font-size: 3.5rem;
+    display: inline-block;
+    animation: gear-spin 2s linear infinite;
+    margin-bottom: 5px;
+}
+
+.flying-emoji {
+    position: fixed;
+    font-size: 3.5rem;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+    animation: flyOut 1.5s ease-out forwards;
+}
+
+.drop-emoji-large {
+    display: block;
+    font-size: 4rem;
+    margin-bottom: 10px;
+}
+
+.doctor-emoji {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 8px;
+}

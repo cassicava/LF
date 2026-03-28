@@ -1,0 +1,75 @@
+.app-header {
+    position: fixed;
+    top: 50vh;
+    left: 0;
+    width: 100%;
+    height: 85px;
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    transform: translateY(-50%);
+    transition: top 1.2s cubic-bezier(0.25, 0.8, 0.25, 1),
+                transform 1.2s cubic-bezier(0.25, 0.8, 0.25, 1),
+                background-color 0.4s ease, 
+                border-color 0.4s ease;
+}
+
+.app-header.move-top {
+    top: 0;
+    transform: translateY(0);
+}
+
+.app-header.header-ready {
+    background-color: var(--header-bg);
+    border-bottom: 1px solid var(--header-border);
+}
+
+.animated-brand-text {
+    font-size: 4rem;
+    font-weight: 700;
+    margin: 0;
+    pointer-events: none; /* Desativa os cliques no meio da animação */
+    transition: all 1.2s ease-in-out;
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-mid), var(--gradient-end), var(--gradient-mid), var(--gradient-start));
+    background-size: 300% 100%;
+    animation: animated-gradient-text 6s linear infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.app-header.move-top .animated-brand-text {
+    font-size: 2.2rem;
+}
+
+.app-header.header-ready .animated-brand-text {
+    pointer-events: auto; /* Reativa os cliques quando parar de subir */
+    cursor: pointer;
+}
+
+.app-header.header-ready .animated-brand-text:active {
+    transform: scale(0.95);
+}
+
+@keyframes animated-gradient-text {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 150% 50%; }
+}
+
+.header-actions {
+    position: absolute;
+    right: 30px;
+    display: flex;
+    gap: 15px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+.header-actions.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
