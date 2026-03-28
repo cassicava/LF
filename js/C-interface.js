@@ -10,11 +10,11 @@ function atualizarEstadoAbas() {
             btn.innerText = `Pendentes (${count})`;
         } else if (tab === 'enviados') {
             count = state.enviados.length;
-            msg = "Ainda n\u00E3o enviamos mensagens :)";
+            msg = "Ainda não enviamos mensagens :)";
             btn.innerText = `Enviados (${count})`;
         } else if (tab === 'erros') {
             count = state.erros.length;
-            msg = "N\u00E3o tivemos erros :)";
+            msg = "Não tivemos erros :)";
             btn.innerText = `Erros (${count})`;
         }
 
@@ -36,6 +36,7 @@ function mostrarInfoMedico() {
     const dataAtual = state.dataConsulta || obterDataPadrao();
 
     aplicarFadeTextos(() => {
+        dropZone.classList.remove('processing'); // Remove os traços a girar
         dropTitle.innerHTML = `
             <span class="doctor-date">${dataAtual}</span>
             <span class="doctor-emoji">${emoji}</span>
@@ -43,9 +44,10 @@ function mostrarInfoMedico() {
             <span class="doctor-specialty">${state.medicoEspecialidade}</span>
         `;
         dropSubtitle.style.display = 'none';
-        dropZone.classList.add('pulse-once');
+        dropZone.classList.add('pulse-once'); // Inicia o pulsar forte
     });
 
+    // Espera exatos 1.6s (1.5s do pulsar + 100ms de margem) para deslizar sem travar
     setTimeout(() => {
         dropZone.classList.remove('pulse-once');
         dropZone.classList.add('active');
@@ -54,12 +56,13 @@ function mostrarInfoMedico() {
         contentArea.classList.add('active');
         atualizarPílula(tabBtns[0]);
         renderizarLista(abaAtual);
-    }, 3300);
+    }, 1600); 
 }
 
 function atualizarPílula(botao) {
     activeBg.style.width = `${botao.offsetWidth}px`;
     activeBg.style.left = `${botao.offsetLeft}px`;
+
     const tabName = botao.getAttribute('data-tab');
     document.body.setAttribute('data-active-tab', tabName);
 }
@@ -111,7 +114,7 @@ function renderizarLista(aba) {
         if(aba === 'erros') {
             card.className = 'card error-card';
             card.innerHTML = `
-                <span class="error-icon">\u26A0\uFE0F</span>
+                <span class="error-icon">⚠️</span>
                 <div class="error-info-container" style="color: var(--error-text);">
                     <strong>${item.nome}</strong>
                     <span style="font-size: 0.95rem; margin-top: 4px;">${item.info}</span>
@@ -125,16 +128,16 @@ function renderizarLista(aba) {
                 btnHtml = `<button class="btn-enviar" onclick="enviarMensagem(${item.id})">Enviar Lembrete</button>`;
             } else if (aba === 'enviados') {
                 btnHtml = `<div class="enviado-container">
-                    <span style="color: var(--primary-color); font-weight: bold; flex-shrink: 0;">\u2705 Enviado</span>
-                    <button class="btn-reenviar" onclick="reenviarMensagem(${item.id})" title="Reenviar">\u21BB</button>
+                    <span style="color: var(--primary-color); font-weight: bold; flex-shrink: 0;">✅ Enviado</span>
+                    <button class="btn-reenviar" onclick="reenviarMensagem(${item.id})" title="Reenviar">↻</button>
                 </div>`;
             }
 
             card.innerHTML = `
                 <div class="card-info">
                     <strong>${item.nome}</strong>
-                    <span class="horario-info">\uD83D\uDD52 ${item.horario}</span>
-                    <span class="telefone-info">\uD83D\uDCDE ${item.telefoneFmt}</span>
+                    <span class="horario-info">🕒 ${item.horario}</span>
+                    <span class="telefone-info">📞 ${item.telefoneFmt}</span>
                 </div>
                 ${btnHtml}
             `;
@@ -154,9 +157,8 @@ function resetarInterface(comAnimacaoEsconderLista = true) {
     hasDocument = false;
 
     setTimeout(() => {
-        dropZone.style.border = '3px dashed var(--text-muted)';
-        dropZone.classList.remove('active');
-        dropZone.classList.remove('pulse-once');
+        dropZone.style.border = ''; // Limpa as bordas inline forçadas
+        dropZone.classList.remove('active', 'pulse-once', 'processing', 'error-state');
         contentArea.classList.remove('active');
         contentArea.innerHTML = '';
         btnExcluir.style.display = 'none';
@@ -165,11 +167,11 @@ function resetarInterface(comAnimacaoEsconderLista = true) {
         setTimeout(() => {
             aplicarFadeTextos(() => {
                 dropTitle.innerHTML = `
-                    <span class="drop-emoji-large">\uD83D\uDCC4</span>
+                    <span class="drop-emoji-large">📄</span>
                     Solte o PDF
                 `;
                 dropSubtitle.style.display = 'block';
-                dropSubtitle.innerText = 'Arraste o seu agendamento para c\u00E1';
+                dropSubtitle.innerText = 'Arraste o seu agendamento para cá';
             });
         }, 300);
 

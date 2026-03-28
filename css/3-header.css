@@ -31,7 +31,7 @@
     font-size: 4rem;
     font-weight: 700;
     margin: 0;
-    pointer-events: none; /* Desativa os cliques no meio da animação */
+    pointer-events: none; 
     transition: all 1.2s ease-in-out;
     background: linear-gradient(to right, var(--gradient-start), var(--gradient-mid), var(--gradient-end), var(--gradient-mid), var(--gradient-start));
     background-size: 300% 100%;
@@ -42,11 +42,11 @@
 }
 
 .app-header.move-top .animated-brand-text {
-    font-size: 2.2rem;
+    font-size: 2.4rem; /* Aumentado de 2.2 para 2.4 */
 }
 
 .app-header.header-ready .animated-brand-text {
-    pointer-events: auto; /* Reativa os cliques quando parar de subir */
+    pointer-events: auto; 
     cursor: pointer;
 }
 
@@ -72,4 +72,8 @@
 .header-actions.visible {
     opacity: 1;
     pointer-events: auto;
+}
+
+.hide-until-login {
+    display: none !important; /* Esconde o botão de config até ao login */
 }

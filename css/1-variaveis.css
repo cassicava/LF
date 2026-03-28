@@ -3,7 +3,6 @@
 :root {
     --font-sans: 'Figtree', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     
-    /* Degradê exlusivo em tons de Verde/WhatsApp */
     --gradient-start: #128C7E;
     --gradient-mid: #25D366;
     --gradient-end: #075E54;
@@ -24,7 +23,7 @@
     --error-border: rgba(254, 178, 178, 0.8);
     --error-text: #c53030;
     --modal-bg: #ffffff;
-    --glow-color: rgba(160, 174, 192, 0.15);
+    --glow-color: rgba(160, 174, 192, 0.25); /* Sombra mais forte no modo claro */
 }
 
 [data-theme="dark"] {
@@ -44,13 +43,15 @@
     --error-border: rgba(200, 50, 50, 0.6);
     --error-text: #fc8181;
     --modal-bg: #1e1f20;
-    --glow-color: rgba(255, 255, 255, 0.02);
+    --glow-color: rgba(255, 255, 255, 0.02); /* Mantém super fraca no modo escuro */
 }
 
-body[data-active-tab="pendentes"] { --glow-color: rgba(49, 130, 206, 0.12); }
-body[data-active-tab="enviados"] { --glow-color: rgba(18, 140, 126, 0.12); }
-body[data-active-tab="erros"] { --glow-color: rgba(229, 62, 62, 0.12); }
+/* Sombra dependente da Aba no Modo Claro */
+body[data-active-tab="pendentes"] { --glow-color: rgba(49, 130, 206, 0.25); }
+body[data-active-tab="enviados"] { --glow-color: rgba(18, 140, 126, 0.25); }
+body[data-active-tab="erros"] { --glow-color: rgba(229, 62, 62, 0.25); }
 
+/* Sombra dependente da Aba no Modo Escuro */
 [data-theme="dark"] body[data-active-tab="pendentes"] { --glow-color: rgba(93, 163, 213, 0.03); }
 [data-theme="dark"] body[data-active-tab="enviados"] { --glow-color: rgba(21, 143, 68, 0.03); }
 [data-theme="dark"] body[data-active-tab="erros"] { --glow-color: rgba(226, 109, 109, 0.03); }

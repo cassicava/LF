@@ -4,8 +4,12 @@
 
 @keyframes pulse-card {
     0% { transform: scale(1); box-shadow: 0 4px 15px var(--shadow-color); }
-    50% { transform: scale(1.05); box-shadow: 0 10px 30px rgba(18, 140, 126, 0.3); }
+    50% { transform: scale(1.03); box-shadow: 0 8px 25px rgba(18, 140, 126, 0.2); }
     100% { transform: scale(1); box-shadow: 0 4px 15px var(--shadow-color); }
+}
+
+.drop-zone.pulse-once {
+    animation: pulse-card 1.2s ease-in-out;
 }
 
 @keyframes gear-spin {
@@ -19,19 +23,6 @@
 
 @keyframes slideUp {
     to { opacity: 1; transform: translateY(0); }
-}
-
-.drop-zone.dragover::before {
-    content: "";
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    border: 3px dashed var(--primary-color);
-    border-radius: 50%;
-    animation: spin 15s linear infinite;
-    pointer-events: none;
 }
 
 .spinning-gear {

@@ -3,7 +3,7 @@
     width: 100%;
     max-width: 92%;
     height: calc(100vh - 85px);
-    margin-top: 85px; /* Compensa a altura do Header fixo e devolve tudo para o centro */
+    margin-top: 85px;
     padding: 20px;
     gap: 40px;
     align-items: stretch;
@@ -25,7 +25,10 @@
 
 .content-area {
     width: 0;
-    height: 100%;
+    /* Define que a área de scroll começa fisicamente 100px abaixo do topo do container */
+    margin-top: 100px; 
+    /* Calcula a altura para o scroll não sumir lá embaixo (100vh - header - margem topo lista - folga bot) */
+    height: calc(100vh - 85px - 100px - 40px); 
     opacity: 0;
     overflow-x: hidden !important;
     overflow-y: auto;
@@ -34,6 +37,8 @@
     flex-direction: column;
     gap: 15px;
     transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    /* Fade ajustado para a nova posição física */
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
     mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
 }
@@ -42,14 +47,25 @@
     width: 100%;
     flex-grow: 1;
     opacity: 1;
-    padding: 100px 10px 80px 0;
+    /* Padding interno menor, pois a margem externa já posicionou a caixa no lugar certo */
+    padding: 10px 10px 20px 0; 
 }
 
-::-webkit-scrollbar { width: 8px; }
+/* Estilização da Scrollbar para não ficar "colada" no topo */
+::-webkit-scrollbar { 
+    width: 8px; 
+}
+
 ::-webkit-scrollbar-thumb {
     background: var(--text-muted);
     border-radius: 20px;
     opacity: 0.5;
+}
+
+::-webkit-scrollbar-track {
+    /* Dá um espaço para a scrollbar não começar grudada no menu */
+    margin-top: 10px; 
+    margin-bottom: 10px;
 }
 
 .app-hidden {

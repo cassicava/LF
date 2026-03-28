@@ -31,7 +31,7 @@ async function iniciarProcessamentoAnimacao(file) {
         dropTitle.innerHTML = `<span class="spinning-gear">\u2699\uFE0F</span>`;
         dropSubtitle.style.display = 'block';
         dropSubtitle.innerText = 'Lendo documento...';
-        dropZone.style.border = '2px solid var(--glass-border)';
+        dropZone.classList.add('processing'); // Aciona os traços a girar
     });
 
     const docEmojis = ['\uD83D\uDCC4', '\uD83D\uDCC1', '\uD83D\uDCDD', '\uD83D\uDD0D', '\uD83D\uDCCA'];
@@ -79,6 +79,7 @@ async function iniciarProcessamentoAnimacao(file) {
 
 function exibirErroDocumento() {
     aplicarFadeTextos(() => {
+        dropZone.classList.remove('processing');
         dropZone.classList.add('error-state');
         dropTitle.innerHTML = `<span style="font-size: 3.5rem; display: block; margin-bottom: 10px;">\u274C</span>Documento Inv\u00E1lido`;
         dropSubtitle.style.display = 'block';

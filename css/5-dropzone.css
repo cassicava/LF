@@ -10,7 +10,7 @@
     background-color: var(--glass-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 3px dashed var(--text-muted);
+    border: 2px dashed var(--header-border);
     border-radius: 50%;
     padding: 20px;
     box-shadow: 0 4px 15px var(--shadow-color);
@@ -20,6 +20,25 @@
 .drop-zone.dragover {
     border-color: transparent;
     background-color: var(--glass-hover);
+}
+
+.drop-zone.processing {
+    border-color: transparent !important;
+}
+
+/* Ajuste da borda giratória: traços maiores e rotação bem visível */
+.drop-zone.dragover::before,
+.drop-zone.processing::before {
+    content: "";
+    position: absolute;
+    top: -5px; /* Levemente para fora para não encostar no círculo */
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 4px dashed var(--primary-color); /* Mais grosso (4px) e tracejado */
+    border-radius: 50%;
+    animation: spin 12s linear infinite; /* Bem mais lento (12 segundos) */
+    pointer-events: none;
 }
 
 .drop-zone.active {
@@ -49,15 +68,10 @@
     color: var(--text-color);
     transition: all 0.4s ease;
     z-index: 2;
-    opacity: 1;
-    transform: scale(1);
 }
 
 #dropSubtitle {
     font-size: 1rem;
     color: var(--text-muted);
     z-index: 2;
-    transition: all 0.4s ease;
-    opacity: 1;
-    transform: scale(1);
 }

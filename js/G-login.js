@@ -6,21 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const appContainer = document.getElementById('appContainer');
     const btnEntrar = document.getElementById('btnEntrar');
     
-    // Elementos dos Termos
     const btnTermos = document.getElementById('btnTermos');
     const termosOverlay = document.getElementById('termosOverlay');
     const btnFecharTermos = document.getElementById('btnFecharTermos');
 
-    // 1. Coreografia da Animação Inicial (Agora 1 segundo mais rápido)
+    // 1. Coreografia da Animação Inicial
     setTimeout(() => {
         appHeader.classList.add('move-top');
         setTimeout(() => {
-            // Só exibe o fundo do header e libera o botão depois de terminar de subir
             appHeader.classList.add('header-ready'); 
             headerActions.classList.add('visible');
             loginWrapper.classList.add('visible');
         }, 1200); 
-    }, 500); // Antes era 1500, agora é 500!
+    }, 500); 
 
     // 2. Ação de Entrar (Login)
     btnEntrar.addEventListener('click', (e) => {
@@ -32,7 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             loginWrapper.style.display = 'none';
             
-            // Remove a classe que oculta a aplicação principal
+            // Re-exibe o ícone de Configuração de mensagens (📧)
+            const btnConfig = document.getElementById('btnConfig');
+            if (btnConfig) btnConfig.classList.remove('hide-until-login');
+
             floatingTabs.classList.remove('app-hidden');
             appContainer.classList.remove('app-hidden');
         }, 600);

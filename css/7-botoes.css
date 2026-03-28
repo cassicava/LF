@@ -5,16 +5,10 @@
     cursor: pointer;
     transition: transform 0.3s ease;
     outline: none;
-    filter: grayscale(100%);
-}
-
-[data-theme="dark"] .icon-btn[id="btnTheme"] {
-    filter: none;
 }
 
 .icon-btn:hover {
     transform: scale(1.1) rotate(10deg);
-    filter: none;
 }
 
 .btn-enviar {
@@ -50,23 +44,23 @@
     padding: 0;
     background: transparent;
     border: none;
-    font-size: 1.6rem; /* Aumentei um bocadinho para ficar mais visível */
+    font-size: 1.6rem; 
     font-weight: bold;
     cursor: pointer;
     color: var(--text-muted);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Transição mais fluida e elástica */
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     flex-shrink: 0;
-    line-height: 1; /* Remove espaços mortos da fonte */
-    transform-origin: center center; /* Garante que roda exatamente a partir do centro */
+    line-height: 1; 
+    transform-origin: center center; 
 }
 
 .btn-reenviar:hover {
     color: var(--primary-color);
-    transform: rotate(360deg); /* Giro completo resolve o problema do alinhamento */
+    transform: rotate(360deg); 
     background-color: var(--glass-hover);
 }
 
