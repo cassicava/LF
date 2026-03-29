@@ -26,8 +26,22 @@
 
     <header class="app-header" id="appHeader">
         <h1 id="appTitle" class="animated-brand-text">Lembretes Fácil</h1>
+        
+        <div id="welcomeMsg" class="welcome-msg">Bem-vindo(a)! ✨</div>
+        
+        <div class="header-center-area" id="headerCenterArea">
+            <div class="header-divider left-divider"></div>
+            <div id="floatingTabs" class="floating-tabs app-hidden">
+                <div class="active-bg" id="activeBg"></div>
+                <button class="tab-btn active" data-tab="pendentes">Pendentes (0)</button>
+                <button class="tab-btn" data-tab="enviados">Enviados (0)</button>
+                <button class="tab-btn" data-tab="erros">Erros (0)</button>
+                <button class="tab-btn" data-tab="config">Mensagens</button>
+            </div>
+            <div class="header-divider right-divider"></div>
+        </div>
+
         <div class="header-actions" id="headerActions">
-            <button id="btnConfig" class="icon-btn hide-until-login" title="Personalizar Mensagem">📧</button>
             <button id="btnTheme" class="icon-btn" title="Alternar Tema">☀️</button>
             <button id="btnTermos" class="icon-btn" title="Termos de Uso">⚖️</button>
             <button id="btnSair" class="icon-btn hide-until-login" title="Sair do Sistema">⏻</button>
@@ -52,13 +66,6 @@
         </div>
     </div>
 
-    <div id="floatingTabs" class="floating-tabs app-hidden">
-        <div class="active-bg" id="activeBg"></div>
-        <button class="tab-btn active" data-tab="pendentes">Pendentes (0)</button>
-        <button class="tab-btn" data-tab="enviados">Enviados (0)</button>
-        <button class="tab-btn" data-tab="erros">Erros (0)</button>
-    </div>
-
     <div class="app-container app-hidden" id="appContainer">
         <div class="left-panel">
             <div id="dropZone" class="drop-zone">
@@ -73,24 +80,30 @@
             </div>
             <button id="btnExcluir" class="btn-excluir">Excluir Arquivo</button>
         </div>
+        
         <div id="contentArea" class="content-area"></div>
-    </div>
 
-    <div id="configModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>Personalizar Mensagem</h2>
-            <p class="modal-hint">
-                <strong>Dica:</strong> Clique nas tags abaixo para copiar e dê <em>Ctrl+V</em> no texto!<br><br>
-                <span class="tag-badge" onclick="copiarTag(this)">{{nome}}</span>
-                <span class="tag-badge" onclick="copiarTag(this)">{{data}}</span>
-                <span class="tag-badge" onclick="copiarTag(this)">{{horario}}</span>
-                <span class="tag-badge" onclick="copiarTag(this)">{{medico}}</span>
-                <span class="tag-badge" onclick="copiarTag(this)">{{emoji_medico}}</span>
-            </p>
-            <textarea id="msgTemplateInput"></textarea>
-            <div class="modal-buttons">
-                <button id="btnCancelConfig" class="btn-cancel">Cancelar</button>
-                <button id="btnSaveConfig" class="btn-save">Salvar Mensagem</button>
+        <div class="content-area config-area app-hidden" id="configContainer" style="opacity: 0;">
+            <div class="config-header">
+                <h2 class="config-title">Configurar Mensagens</h2>
+            </div>
+            
+            <div class="templates-row" id="templatesRow"></div>
+
+            <div class="config-editor">
+                <div class="modal-hint">
+                    <strong>Dica:</strong> Clique para copiar:
+                    <span class="tag-badge" onclick="copiarTag(this)">{{nome}}</span>
+                    <span class="tag-badge" onclick="copiarTag(this)">{{data}}</span>
+                    <span class="tag-badge" onclick="copiarTag(this)">{{horario}}</span>
+                    <span class="tag-badge" onclick="copiarTag(this)">{{medico}}</span>
+                    <span class="tag-badge" onclick="copiarTag(this)">{{emoji_medico}}</span>
+                </div>
+                
+                <textarea id="msgTemplateInput"></textarea>
+                <div class="modal-buttons">
+                    <button id="btnSaveConfig" class="btn-save">Salvar Mensagem</button>
+                </div>
             </div>
         </div>
     </div>

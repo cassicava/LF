@@ -1,20 +1,23 @@
 .drop-zone {
-    position: relative;
-    width: 360px;
-    height: 360px;
+    width: 350px;
+    height: 350px;
+    margin-top: -60px; 
+    border: 3px dashed var(--header-border);
+    border-radius: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+    padding: 20px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
     background-color: var(--glass-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 2px dashed var(--header-border);
-    border-radius: 50%;
-    padding: 20px;
     box-shadow: 0 4px 15px var(--shadow-color);
-    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* REMOVIDO: overflow: hidden; -> Agora a borda pontilhada pode vazar e aparecer! */
 }
 
 .drop-zone.dragover {
@@ -61,7 +64,6 @@
     gap: 10px;
 }
 
-/* CORREÇÃO: Alinhamento e quebra de linha elegante para o texto de arrastar */
 .text-container p {
     color: var(--text-muted);
     margin-top: 10px;
@@ -108,7 +110,6 @@
     margin-top: 5px;
 }
 
-/* CORREÇÃO: Removido o absolute. Agora a data segue o fluxo normal do painel sem encavalar */
 .doctor-date {
     background: var(--primary-color);
     color: white;

@@ -1,9 +1,6 @@
 // A função englobada por () executa imediatamente, prevenindo falhas visuais do F5
 (function() {
-    const appHeader = document.getElementById('appHeader');
-    const headerActions = document.getElementById('headerActions'); // <-- A caixa dos botões
     const loginWrapper = document.getElementById('loginWrapper');
-    const floatingTabs = document.getElementById('floatingTabs');
     const appContainer = document.getElementById('appContainer');
     const btnEntrar = document.getElementById('btnEntrar');
     const loginCard = document.querySelector('.login-card');
@@ -14,6 +11,9 @@
     const btnTermos = document.getElementById('btnTermos');
     const termosOverlay = document.getElementById('termosOverlay');
     const btnFecharTermos = document.getElementById('btnFecharTermos');
+    
+    // Header e Actions já são pegos globalmente pelo A-estado.js
+    const headerActions = document.getElementById('headerActions'); 
     
     const btnSair = document.getElementById('btnSair');
     const btnConfig = document.getElementById('btnConfig');
@@ -28,18 +28,13 @@
         
         // Desativa a transição momentaneamente
         appHeader.style.transition = 'none';
-        headerActions.style.transition = 'none'; // Evita o fade demorado no F5
+        headerActions.style.transition = 'none'; 
         
-        // Posiciona o cabeçalho e MOSTRA OS BOTÕES
-        appHeader.classList.add('move-top', 'header-ready');
-        headerActions.classList.add('visible'); // <-- CORREÇÃO AQUI
+        // Posiciona o cabeçalho, MOSTRA OS BOTÕES e MOVA O TÍTULO (logged-in)
+        appHeader.classList.add('move-top', 'header-ready', 'logged-in');
+        headerActions.classList.add('visible'); 
         
         loginWrapper.style.display = 'none';
-        
-        if (btnConfig) btnConfig.classList.remove('hide-until-login');
-        if (btnSair) btnSair.classList.remove('hide-until-login');
-
-        floatingTabs.classList.remove('app-hidden');
         appContainer.classList.remove('app-hidden');
 
         // Devolve o direito de animar depois que o navegador pintou a tela
@@ -56,7 +51,7 @@
             appHeader.classList.add('move-top');
             setTimeout(() => {
                 appHeader.classList.add('header-ready'); 
-                headerActions.classList.add('visible'); // <-- CORREÇÃO AQUI TAMBÉM
+                headerActions.classList.add('visible'); 
                 loginWrapper.classList.add('visible');
             }, 1200); 
         }, 500); 
@@ -94,11 +89,17 @@
             setTimeout(() => {
                 loginWrapper.style.display = 'none';
                 
-                // Exibe os botões de controle suavemente
-                if (btnConfig) btnConfig.classList.remove('hide-until-login');
-                if (btnSair) btnSair.classList.remove('hide-until-login');
+                // --- MÁGICA DA PÍLULA NO LOGIN ---
+                appHeader.classList.add('logged-in'); // Move título p/ esquerda
+                
+                // Exibe a mensagem de Bem-vindo
+                setTimeout(() => {
+                    welcomeMsg.classList.add('show');
+                    setTimeout(() => {
+                        welcomeMsg.classList.remove('show');
+                    }, 2500); // Fica visível por 2.5s e some
+                }, 800);
 
-                floatingTabs.classList.remove('app-hidden');
                 appContainer.classList.remove('app-hidden');
             }, 600);
         } else {
@@ -113,22 +114,21 @@
         btnSair.addEventListener('click', () => {
             localStorage.removeItem('lf_sessao_expira');
             
-            floatingTabs.classList.add('app-hidden');
             appContainer.classList.add('app-hidden');
             if (typeof resetarInterface === 'function') resetarInterface(false);
 
-            // Esconde apenas os botões restritos
-            if (btnConfig) btnConfig.classList.add('hide-until-login');
-            btnSair.classList.add('hide-until-login');
+            // --- VOLTA A PÍLULA AO ESTADO INICIAL ---
+            appHeader.classList.remove('logged-in'); // Volta o título pro meio
+            headerCenterArea.classList.remove('active'); // Esconde as abas se estiverem abertas
 
-            // Volta apenas o quadro de login, O CABEÇALHO FICA NO TOPO COM TEMA E TERMOS!
+            // Volta apenas o quadro de login
             setTimeout(() => {
                 loginWrapper.style.display = 'flex';
                 void loginWrapper.offsetWidth; 
                 loginWrapper.style.opacity = '1';
                 loginWrapper.style.pointerEvents = 'auto';
                 inputSenha.value = ''; 
-            }, 400); 
+            }, 600); 
         });
     }
 

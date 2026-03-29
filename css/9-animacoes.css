@@ -13,7 +13,8 @@
 }
 
 @keyframes gear-spin {
-    100% { transform: rotate(360deg); }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 @keyframes flyOut {
@@ -21,15 +22,22 @@
     100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.5) rotate(var(--rot)); opacity: 0; }
 }
 
+/* CORREÇÃO: Restaurada a animação que traz os cards para a tela */
 @keyframes slideUp {
     to { opacity: 1; transform: translateY(0); }
 }
 
 .spinning-gear {
     font-size: 3.5rem;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1em; 
+    height: 1em; 
     animation: gear-spin 2s linear infinite;
     margin-bottom: 5px;
+    line-height: 1;
+    transform-origin: center center;
 }
 
 .flying-emoji {

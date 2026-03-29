@@ -1,6 +1,14 @@
 function atualizarEstadoAbas() {
     tabBtns.forEach(btn => {
         const tab = btn.getAttribute('data-tab');
+        
+        // A aba de Mensagens nunca fica desabilitada
+        if (tab === 'config') {
+            btn.classList.remove('disabled');
+            btn.removeAttribute('title');
+            return;
+        }
+
         let count = 0;
         let msg = "";
 
@@ -45,7 +53,6 @@ function mostrarInfoMedico() {
         dropSubtitle.style.display = 'none';
         dropZone.classList.add('pulse-once');
 
-        // Lógica de alternar o gênero manualmente com clique
         document.getElementById('doctorEmojiToggle').addEventListener('click', (e) => {
             e.stopPropagation(); 
             const el = e.target;
@@ -62,7 +69,10 @@ function mostrarInfoMedico() {
     setTimeout(() => {
         dropZone.classList.remove('pulse-once');
         dropZone.classList.add('active');
-        floatingTabs.classList.add('active');
+        
+        floatingTabs.classList.remove('app-hidden');
+        headerCenterArea.classList.add('active'); 
+        
         btnExcluir.style.display = 'block';
         contentArea.classList.add('active');
         atualizarPílula(tabBtns[0]);
@@ -82,31 +92,63 @@ tabBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
         if (e.target.classList.contains('disabled')) return;
 
+        const novaAba = e.target.getAttribute('data-tab');
+        if (abaAtual === novaAba) return;
+
+        // Se estamos a sair da aba de Mensagens, guardamos o texto atual para não perder edições
+        if (abaAtual === 'config' && novaAba !== 'config') {
+            meusTemplates[templateAtivoIndex].texto = msgTemplateInput.value;
+            window.salvarTemplatesLocais();
+        }
+
         tabBtns.forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
         
         atualizarPílula(e.target);
-        abaAtual = e.target.getAttribute('data-tab');
+        abaAtual = novaAba;
         
+        // Transição cruzada suave
         contentArea.style.opacity = '0';
+        configContainer.style.opacity = '0';
 
         setTimeout(() => {
-            renderizarLista(abaAtual);
-            contentArea.style.opacity = '1';
+            if (abaAtual === 'config') {
+                contentArea.classList.remove('active');
+                contentArea.classList.add('app-hidden');
+                
+                configContainer.classList.remove('app-hidden');
+                configContainer.classList.add('active');
+                
+                if (typeof renderizarPilulas === 'function') {
+                    renderizarPilulas();
+                }
+                
+                setTimeout(() => configContainer.style.opacity = '1', 50);
+            } else {
+                configContainer.classList.remove('active');
+                configContainer.classList.add('app-hidden');
+                
+                contentArea.classList.remove('app-hidden');
+                contentArea.classList.add('active');
+                renderizarLista(abaAtual);
+                
+                setTimeout(() => contentArea.style.opacity = '1', 50);
+            }
         }, 300);
     });
 });
 
 function renderizarLista(aba) {
     contentArea.innerHTML = '';
+    if (aba === 'config') return; // Bloqueio de segurança extra
+
     const dados = state[aba];
 
-    if(dados.length === 0) return;
+    if(!dados || dados.length === 0) return;
 
     let lastHour = "";
 
     dados.forEach((item, index) => {
-        
         if (aba === 'pendentes' || aba === 'enviados') {
             let currentHour = item.horario.split(':')[0];
             if (lastHour !== "" && currentHour !== lastHour) {
@@ -161,7 +203,14 @@ function renderizarLista(aba) {
 function resetarInterface(comAnimacaoEsconderLista = true) {
     if (comAnimacaoEsconderLista) {
         contentArea.style.opacity = '0';
-        floatingTabs.classList.remove('active');
+        configContainer.style.opacity = '0';
+        
+        headerCenterArea.classList.remove('active'); 
+
+        setTimeout(() => {
+            floatingTabs.classList.add('app-hidden');
+        }, 600);
+        
         btnExcluir.style.opacity = '0';
     }
 
@@ -170,8 +219,13 @@ function resetarInterface(comAnimacaoEsconderLista = true) {
     setTimeout(() => {
         dropZone.style.border = ''; 
         dropZone.classList.remove('active', 'pulse-once', 'processing', 'error-state');
+        
         contentArea.classList.remove('active');
         contentArea.innerHTML = '';
+        
+        configContainer.classList.remove('active');
+        configContainer.classList.add('app-hidden');
+
         btnExcluir.style.display = 'none';
         btnExcluir.style.opacity = '1';
 
@@ -182,7 +236,6 @@ function resetarInterface(comAnimacaoEsconderLista = true) {
                     Solte o PDF
                 `;
                 dropSubtitle.style.display = 'block';
-                /* CORREÇÃO AQUI: Texto atualizado */
                 dropSubtitle.innerText = 'Arraste o agendamento para cá ou clique no documento';
             });
         }, 300);
@@ -203,6 +256,7 @@ function resetarInterface(comAnimacaoEsconderLista = true) {
         
         if (comAnimacaoEsconderLista) {
             setTimeout(() => {
+                contentArea.classList.remove('app-hidden');
                 contentArea.style.opacity = '1';
                 atualizarPílula(tabBtns[0]);
             }, 600);

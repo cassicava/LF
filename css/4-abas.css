@@ -1,79 +1,62 @@
 .floating-tabs {
-    position: fixed;
-    top: 20px; /* Começa um pouco mais acima */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--glass-bg);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid var(--glass-border);
-    padding: 8px;
-    border-radius: 50px;
-    box-shadow: 0 4px 20px var(--shadow-color);
+    position: relative; 
+    background-color: transparent;
+    border: none;
+    padding: 2px;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     display: flex;
-    gap: 10px;
-    
-    /* CORREÇÃO: Fica totalmente invisível e intocável antes do PDF */
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    
-    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-    z-index: 100;
-}
-
-.floating-tabs.active { 
-    top: 105px; 
-    /* CORREÇÃO: Fica visível apenas quando ganha a classe 'active' */
+    gap: 3px;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+    transition: all 0.6s ease;
+    z-index: 100;
+}
+
+.floating-tabs.app-hidden {
+    display: none !important;
 }
 
 .active-bg {
     position: absolute;
-    top: 8px;
-    bottom: 8px;
-    left: 8px;
+    top: 2px;
+    bottom: 2px;
+    left: 2px;
     border-radius: 40px;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 0;
 }
 
-body[data-active-tab="pendentes"] .active-bg {
-    background-color: var(--btn-enviar-color);
-}
-body[data-active-tab="enviados"] .active-bg {
-    background-color: var(--primary-color);
-}
-body[data-active-tab="erros"] .active-bg {
-    background-color: var(--btn-excluir-color);
-}
+body[data-active-tab="pendentes"] .active-bg { background-color: var(--btn-enviar-color); }
+body[data-active-tab="enviados"] .active-bg { background-color: var(--primary-color); }
+body[data-active-tab="erros"] .active-bg { background-color: var(--btn-excluir-color); }
+/* NOVO: Cor de fundo da Pílula Selecionada para a Aba Mensagens */
+body[data-active-tab="config"] .active-bg { background-color: var(--btn-config-color); } 
 
 .tab-btn {
     position: relative;
     background: transparent;
     border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
+    padding: 10px 18px; 
+    font-size: 1rem; 
     font-weight: bold;
     color: var(--text-muted);
     cursor: pointer;
     border-radius: 40px;
     transition: color 0.3s ease;
     z-index: 1;
+    pointer-events: auto; 
 }
 
-.tab-btn.active {
-    color: #ffffff;
-}
+.tab-btn.active { color: #ffffff; }
 
 .tab-btn.disabled {
     opacity: 0.5;
-    cursor: not-allowed;
+    cursor: not-allowed !important;
 }
 
-/* Efeito de hover suave para abas não ativas */
 .tab-btn:not(.active):not(.disabled):hover {
     color: var(--text-color);
 }

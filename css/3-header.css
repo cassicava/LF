@@ -1,57 +1,80 @@
+/* ==================================================== */
+/* HEADER DO APLICATIVO E AÇÕES DO TOPO                  */
+/* ==================================================== */
+
 .app-header {
     position: fixed;
     top: 50vh;
-    left: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 100%;
-    height: 85px;
+    max-width: 90%; 
+    height: 70px;
     background-color: transparent;
-    border-bottom: 1px solid transparent;
+    border: 1px solid transparent;
+    border-radius: 40px; 
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 200;
-    transform: translateY(-50%);
+    /* Transições suaves para quando o header "sobe" */
     transition: top 1.2s cubic-bezier(0.25, 0.8, 0.25, 1),
+                height 0.6s ease,
                 transform 1.2s cubic-bezier(0.25, 0.8, 0.25, 1),
-                background-color 0.4s ease, 
-                border-color 0.4s ease;
+                background-color 0.6s ease,
+                border-color 0.6s ease,
+                box-shadow 0.6s ease;
 }
 
+/* Estado quando o header sobe após o login */
 .app-header.move-top {
-    top: 0;
-    transform: translateY(0);
+    top: 12px; 
+    transform: translateX(-50%); 
 }
 
+/* Estado visual do header pronto (com vidro e sombra) */
 .app-header.header-ready {
-    background-color: var(--header-bg);
-    border-bottom: 1px solid var(--header-border);
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 30px var(--shadow-color);
 }
 
-.animated-brand-text {
-    font-size: 4rem;
-    font-weight: 700;
+/* --- TÍTULO DO APP (LEMBRETES FÁCIL) --- */
+#appTitle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4.2rem; 
     margin: 0;
-    pointer-events: none; 
-    transition: all 1.2s ease-in-out;
+    pointer-events: none;
+    transition: all 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
     background: linear-gradient(to right, var(--gradient-start), var(--gradient-mid), var(--gradient-end), var(--gradient-mid), var(--gradient-start));
     background-size: 300% 100%;
     animation: animated-gradient-text 6s linear infinite;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    white-space: nowrap;
 }
 
-.app-header.move-top .animated-brand-text {
-    font-size: 2.4rem; 
+.app-header.move-top #appTitle {
+    font-size: 2.3rem; 
 }
 
-.app-header.header-ready .animated-brand-text {
-    pointer-events: auto; 
+/* Estilo do título quando logado, agindo como botão Home */
+.app-header.logged-in #appTitle {
+    left: 40px;
+    transform: translate(0, -50%);
+    font-size: 1.9rem; 
+    pointer-events: auto;
     cursor: pointer;
 }
 
-.app-header.header-ready .animated-brand-text:active {
-    transform: scale(0.95);
+.app-header.logged-in #appTitle:active {
+    transform: translate(0, -50%) scale(0.95);
 }
 
 @keyframes animated-gradient-text {
@@ -59,36 +82,118 @@
     100% { background-position: 150% 50%; }
 }
 
+/* --- MENSAGEM DE BEM-VINDO (COM CORREÇÃO DE ANIMAÇÃO) --- */
+.welcome-msg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /* Começa um pouco abaixo e invisível */
+    transform: translate(-50%, 10px);
+    opacity: 0;
+    visibility: hidden; /* NOVO: Garante que não capture cliques mas permita animação */
+    font-size: 1.3rem; 
+    font-weight: 700;
+    color: var(--primary-color);
+    /* Transição suave de todas as propriedades */
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1); 
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.welcome-msg.show {
+    opacity: 1;
+    visibility: visible; /* NOVO: Torna visível permitindo o fade */
+    transform: translate(-50%, -50%); /* Sobe para o centro */
+}
+
+/* --- ÁREA CENTRAL (DIVISORES E ABAS FANTASMA) --- */
+.header-center-area {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 4px) scale(0.98); 
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    opacity: 0;
+    visibility: hidden; /* NOVO: Mesma lógica de animação da welcome-msg */
+    pointer-events: none; 
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.header-center-area.active {
+    visibility: visible; 
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.header-divider {
+    width: 2px;
+    height: 35px;
+    background-color: var(--header-border);
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.header-center-area.active .header-divider {
+    opacity: 1;
+}
+
+/* --- AÇÕES DO TOPO (BOTÕES DA DIREITA) --- */
 .header-actions {
     position: absolute;
     right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
-    gap: 15px;
-    /* CORREÇÃO: Começa invisível novamente */
+    gap: 12px; 
     opacity: 0;
+    visibility: hidden; /* NOVO */
     pointer-events: none;
     transition: opacity 0.6s ease;
 }
 
-/* CORREÇÃO: Só aparece quando o JS adicionar esta classe */
 .header-actions.visible {
+    visibility: visible;
     opacity: 1;
     pointer-events: auto;
 }
 
+/* Estilo para ocultar botões antes do login (ex: Sair) */
 .icon-btn.hide-until-login {
     opacity: 0;
     width: 0;
-    margin-left: -15px; 
+    margin-left: -12px; 
     transform: scale(0.5);
     pointer-events: none;
     overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease; 
 }
 
+.app-header.logged-in .icon-btn.hide-until-login {
+    opacity: 1;
+    width: 45px; 
+    height: 45px; 
+    font-size: 1.8rem; 
+    margin-left: 0;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+/* Efeito de hover geral para botões do header */
+.header-actions .icon-btn:hover {
+    background-color: var(--header-border);
+    transform: scale(1.05);
+}
+
+/* Cor especial para o botão de Sair */
 #btnSair {
     color: var(--btn-excluir-color);
 }
 
 #btnSair:hover {
     background-color: var(--error-bg);
+    transform: scale(1.05);
 }

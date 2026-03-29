@@ -5,9 +5,7 @@
     background-color: var(--glass-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    /* DIETA EXTREMA: Apenas 8px de altura de respiro! */
-    padding: 8px 8px 8px 16px;
-    /* REDUZIDO: Bordas menos arredondadas porque o card ficou fino */
+    padding: 8px 8px 8px 22px;
     border-radius: 48px;
     box-shadow: 0 4px 10px var(--shadow-color);
     border: 1px solid var(--glass-border);
@@ -28,7 +26,6 @@
     align-items: center;
     width: 100%;
     margin-right: 15px;
-    /* REDUZIDO EXTREMAMENTE: Fonte menor para caber melhor */
     font-size: 1.1rem;
     color: var(--text-color);
     user-select: text;
@@ -44,7 +41,6 @@
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    /* REDUZIDO */
     font-size: 0.95rem;
     user-select: text;
     -webkit-user-select: text;
@@ -56,18 +52,18 @@
     justify-content: flex-start;
 }
 
-/* REDUZIDO */
 .error-icon { font-size: 1.1rem; margin-right: 10px; }
 
+/* CORREÇÃO: Divisor de horários agora está muito mais legível e espaçado */
 .time-separator {
     width: 100%;
     display: flex;
     align-items: center;
     text-align: center;
     color: var(--text-muted);
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin: 4px 0;
+    font-size: 1.15rem; /* Aumentado (antes 0.85rem) */
+    font-weight: 700; /* Mais espesso */
+    margin: 14px 0; /* Mais margem para não encavalar */
     opacity: 0;
     animation: slideUp 0.5s ease forwards;
 }

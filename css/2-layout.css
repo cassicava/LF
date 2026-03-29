@@ -11,9 +11,10 @@
 .app-container {
     display: flex;
     width: 100%;
-    max-width: 92%;
-    height: calc(100vh - 85px);
-    margin-top: 85px;
+    max-width: 95%; /* Expandido ligeiramente para as laterais */
+    /* Ajustado para a nova altura e posição do header flutuante */
+    height: calc(100vh - 100px); /* Ganhamos mais altura */
+    margin-top: 100px; /* Colado um pouco mais para cima */
     padding: 20px;
     gap: 40px;
     align-items: stretch;
@@ -35,15 +36,15 @@
 
 .content-area {
     width: 0;
-    margin-top: 100px; 
-    height: calc(100vh - 85px - 100px - 40px); 
+    /* Ajustado com a nova margem do header */
+    height: calc(100vh - 100px - 40px); /* Ajuste dinâmico */
     opacity: 0;
     overflow-x: hidden !important;
     overflow-y: auto;
     scrollbar-gutter: stable;
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Mantive o gap de 8px para o seu visual compacto */
+    gap: 10px;
     transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
     
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
@@ -54,7 +55,7 @@
     width: 100%;
     flex-grow: 1;
     opacity: 1;
-    padding: 10px 10px 20px 0; 
+    padding: 20px 10px 20px 0; 
 }
 
 /* Estilização da barra de rolagem para combinar com o visual limpo */

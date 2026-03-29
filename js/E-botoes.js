@@ -36,7 +36,7 @@ dropZone.addEventListener('drop', (e) => {
 });
 
 // ===================================================================
-// NOVA LÓGICA DO CLIQUE NO EMOJI (ABRE O EXPLORADOR DE ARQUIVOS)
+// LÓGICA DO CLIQUE NO EMOJI (ABRE O EXPLORADOR DE ARQUIVOS)
 // ===================================================================
 const fileInput = document.getElementById('fileInput');
 
@@ -73,7 +73,8 @@ window.enviarMensagem = function(id) {
     const paciente = state.pendentes[pacienteIndex];
     const dataDisplay = state.dataConsulta || obterDataPadrao();
     
-    let mensagemTemplate = localStorage.getItem('msgTemplateLF_v3') || templatePadrao;
+    // --- LÓGICA ATUALIZADA: Puxa o template da pílula ativa ---
+    let mensagemTemplate = meusTemplates[templateAtivoIndex].texto;
     
     const isMulher = state.medicoGenero === 'F';
     const prefixo = isMulher ? 'Dra. ' : 'Dr. ';
@@ -112,7 +113,9 @@ window.reenviarMensagem = function(id) {
     if(!paciente) return;
 
     const dataDisplay = state.dataConsulta || obterDataPadrao();
-    let mensagemTemplate = localStorage.getItem('msgTemplateLF_v3') || templatePadrao;
+    
+    // --- LÓGICA ATUALIZADA: Puxa o template da pílula ativa ---
+    let mensagemTemplate = meusTemplates[templateAtivoIndex].texto;
     
     const isMulher = state.medicoGenero === 'F';
     const prefixo = isMulher ? 'Dra. ' : 'Dr. ';
