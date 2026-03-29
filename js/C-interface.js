@@ -31,23 +31,34 @@ function atualizarEstadoAbas() {
 function mostrarInfoMedico() {
     atualizarEstadoAbas();
 
-    const isMulher = state.medicoNome.toLowerCase().endsWith('a');
-    const emoji = isMulher ? wDocF : wDocM;
+    const emoji = state.medicoGenero === 'F' ? wDocF : wDocM;
     const dataAtual = state.dataConsulta || obterDataPadrao();
 
     aplicarFadeTextos(() => {
-        dropZone.classList.remove('processing'); // Remove os traços a girar
+        dropZone.classList.remove('processing');
         dropTitle.innerHTML = `
             <span class="doctor-date">${dataAtual}</span>
-            <span class="doctor-emoji">${emoji}</span>
+            <span class="doctor-emoji" id="doctorEmojiToggle" style="cursor: pointer; transition: transform 0.2s;" title="Clique para alterar o gênero (Médico/Médica)" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">${emoji}</span>
             <span class="doctor-name">${state.medicoNome}</span>
             <span class="doctor-specialty">${state.medicoEspecialidade}</span>
         `;
         dropSubtitle.style.display = 'none';
-        dropZone.classList.add('pulse-once'); // Inicia o pulsar forte
+        dropZone.classList.add('pulse-once');
+
+        // Lógica de alternar o gênero manualmente com clique
+        document.getElementById('doctorEmojiToggle').addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            const el = e.target;
+            if (state.medicoGenero === 'F') {
+                state.medicoGenero = 'M';
+                el.innerText = wDocM;
+            } else {
+                state.medicoGenero = 'F';
+                el.innerText = wDocF;
+            }
+        });
     });
 
-    // Espera exatos 1.6s (1.5s do pulsar + 100ms de margem) para deslizar sem travar
     setTimeout(() => {
         dropZone.classList.remove('pulse-once');
         dropZone.classList.add('active');
@@ -157,7 +168,7 @@ function resetarInterface(comAnimacaoEsconderLista = true) {
     hasDocument = false;
 
     setTimeout(() => {
-        dropZone.style.border = ''; // Limpa as bordas inline forçadas
+        dropZone.style.border = ''; 
         dropZone.classList.remove('active', 'pulse-once', 'processing', 'error-state');
         contentArea.classList.remove('active');
         contentArea.innerHTML = '';
@@ -167,14 +178,16 @@ function resetarInterface(comAnimacaoEsconderLista = true) {
         setTimeout(() => {
             aplicarFadeTextos(() => {
                 dropTitle.innerHTML = `
-                    <span class="drop-emoji-large">📄</span>
+                    <span class="drop-emoji-large" id="dropEmojiIcon" title="Clique para selecionar o arquivo">📄</span>
                     Solte o PDF
                 `;
                 dropSubtitle.style.display = 'block';
-                dropSubtitle.innerText = 'Arraste o seu agendamento para cá';
+                /* CORREÇÃO AQUI: Texto atualizado */
+                dropSubtitle.innerText = 'Arraste o agendamento para cá ou clique no documento';
             });
         }, 300);
 
+        state.medicoGenero = "";
         state.pendentes = [];
         state.enviados = [];
         state.erros = [];

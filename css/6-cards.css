@@ -5,9 +5,11 @@
     background-color: var(--glass-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    padding: 20px 30px;
-    border-radius: 50px;
-    box-shadow: 0 4px 15px var(--shadow-color);
+    /* DIETA EXTREMA: Apenas 8px de altura de respiro! */
+    padding: 8px 8px 8px 16px;
+    /* REDUZIDO: Bordas menos arredondadas porque o card ficou fino */
+    border-radius: 48px;
+    box-shadow: 0 4px 10px var(--shadow-color);
     border: 1px solid var(--glass-border);
     opacity: 0;
     transform: translateY(30px);
@@ -25,8 +27,9 @@
     grid-template-columns: 2.5fr 1fr 1.5fr;
     align-items: center;
     width: 100%;
-    margin-right: 20px;
-    font-size: 1.2rem;
+    margin-right: 15px;
+    /* REDUZIDO EXTREMAMENTE: Fonte menor para caber melhor */
+    font-size: 1.1rem;
     color: var(--text-color);
     user-select: text;
     -webkit-user-select: text;
@@ -41,7 +44,8 @@
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    font-size: 1.2rem;
+    /* REDUZIDO */
+    font-size: 0.95rem;
     user-select: text;
     -webkit-user-select: text;
 }
@@ -52,31 +56,29 @@
     justify-content: flex-start;
 }
 
-.error-icon { font-size: 1.5rem; margin-right: 15px; }
+/* REDUZIDO */
+.error-icon { font-size: 1.1rem; margin-right: 10px; }
 
 .time-separator {
     width: 100%;
+    display: flex;
+    align-items: center;
     text-align: center;
-    position: relative;
-    margin: 15px 0 5px 0;
     color: var(--text-muted);
-    font-weight: bold;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 4px 0;
     opacity: 0;
-    transform: translateY(20px);
     animation: slideUp 0.5s ease forwards;
 }
 
-.time-separator::before, .time-separator::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 25%;
-    height: 1px;
-    background-color: var(--header-border);
+.time-separator::before,
+.time-separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px dashed var(--header-border);
 }
 
-.time-separator::before { left: 5%; }
-.time-separator::after { right: 5%; }
+.time-separator span {
+    padding: 0 15px;
+}

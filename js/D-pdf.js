@@ -28,13 +28,13 @@ function aplicarFadeTextos(callback) {
 
 async function iniciarProcessamentoAnimacao(file) {
     aplicarFadeTextos(() => {
-        dropTitle.innerHTML = `<span class="spinning-gear">\u2699\uFE0F</span>`;
+        dropTitle.innerHTML = `<span class="spinning-gear">⚙️</span>`;
         dropSubtitle.style.display = 'block';
         dropSubtitle.innerText = 'Lendo documento...';
-        dropZone.classList.add('processing'); // Aciona os traços a girar
+        dropZone.classList.add('processing'); 
     });
 
-    const docEmojis = ['\uD83D\uDCC4', '\uD83D\uDCC1', '\uD83D\uDCDD', '\uD83D\uDD0D', '\uD83D\uDCCA'];
+    const docEmojis = ['📄', '📁', '📝', '🔍', '📊'];
     
     processInterval = setInterval(() => {
         const el = document.createElement('div');
@@ -81,9 +81,9 @@ function exibirErroDocumento() {
     aplicarFadeTextos(() => {
         dropZone.classList.remove('processing');
         dropZone.classList.add('error-state');
-        dropTitle.innerHTML = `<span style="font-size: 3.5rem; display: block; margin-bottom: 10px;">\u274C</span>Documento Inv\u00E1lido`;
+        dropTitle.innerHTML = `<span style="font-size: 3.5rem; display: block; margin-bottom: 10px;">❌</span>Documento Inválido`;
         dropSubtitle.style.display = 'block';
-        dropSubtitle.innerText = 'Utilize o relat\u00F3rio padr\u00E3o do sistema.';
+        dropSubtitle.innerText = 'Utilize o relatório padrão do sistema.';
         dropSubtitle.style.color = 'var(--error-text)';
         dropSubtitle.style.fontWeight = 'bold';
     });
@@ -126,6 +126,7 @@ async function processarPDFReal(file) {
 
     state.medicoNome = "Sem Nome";
     state.medicoEspecialidade = "";
+    state.medicoGenero = "";
     state.dataConsulta = "";
     state.pendentes = [];
     state.enviados = [];
@@ -133,12 +134,20 @@ async function processarPDFReal(file) {
 
     let profLine = linhas.find(l => l.includes('Profissional:'));
     if (profLine) {
-        let profMatch = profLine.match(/Profissional:\s*(.*?)\s*-\s*(.*)/);
+        let profMatch = profLine.match(/Profissional:\s*([^-]+)(?:\s*-\s*(.*))?/);
         if (profMatch) {
-            state.medicoNome = formatarNomeDinamico(profMatch[1].split(' ')[0]);
-            let especialidadeBruta = profMatch[2].toUpperCase();
-            especialidadeBruta = especialidadeBruta.replace('M\u00C9DICO ', '').replace('MEDICO ', '').replace('M\u00C9DICA ', '').replace('MEDICA ', '').trim();
-            state.medicoEspecialidade = formatarNomeDinamico(especialidadeBruta.split(' ')[0]);
+            state.medicoNome = formatarNomeDinamico(profMatch[1].trim().split(' ')[0]);
+            
+            // Define o gênero base baseando-se na letra final
+            state.medicoGenero = state.medicoNome.toLowerCase().endsWith('a') ? 'F' : 'M';
+            
+            if (profMatch[2]) {
+                let especialidadeBruta = profMatch[2].toUpperCase();
+                especialidadeBruta = especialidadeBruta.replace('MÉDICO ', '').replace('MEDICO ', '').replace('MÉDICA ', '').replace('MEDICA ', '').trim();
+                state.medicoEspecialidade = formatarNomeDinamico(especialidadeBruta.split(' ')[0]);
+            } else {
+                state.medicoEspecialidade = "";
+            }
         }
     }
 
@@ -161,7 +170,7 @@ async function processarPDFReal(file) {
                 state.erros.push({
                     id: pacId++,
                     nome: currentPatient.nome,
-                    info: "Campo 'Observa\u00E7\u00E3o' ausente no relat\u00F3rio."
+                    info: "Campo 'Observação' ausente no relatório."
                 });
             }
 
@@ -173,8 +182,8 @@ async function processarPDFReal(file) {
             }
         }
 
-        if (currentPatient && linha.includes('Observa\u00E7\u00E3o:')) {
-            let obsText = linha.replace('Observa\u00E7\u00E3o:', '').trim();
+        if (currentPatient && linha.includes('Observação:')) {
+            let obsText = linha.replace('Observação:', '').trim();
 
             let phoneRegex = /(?:\+?55\s*)?\(?(\d{2})\)?\s*(9?\d{4})[-\s]?(\d{4})/;
             let phoneMatch = obsText.match(phoneRegex);
@@ -221,9 +230,9 @@ async function processarPDFReal(file) {
                 });
             } else {
                 let motivos = [];
-                if (erroFixo) motivos.push(`Telefone Fixo ${telefoneFormatado} (n\u00E3o possui WhatsApp)`);
+                if (erroFixo) motivos.push(`Telefone Fixo ${telefoneFormatado} (não possui WhatsApp)`);
                 else if (!telefoneFormatado) motivos.push("Telefone Ausente");
-                if (!horarioStr) motivos.push("Hor\u00E1rio inv\u00E1lido ou ausente");
+                if (!horarioStr) motivos.push("Horário inválido ou ausente");
                 
                 state.erros.push({
                     id: pacId++,
@@ -239,7 +248,7 @@ async function processarPDFReal(file) {
         state.erros.push({
             id: pacId++,
             nome: currentPatient.nome,
-            info: "Campo 'Observa\u00E7\u00E3o' ausente no relat\u00F3rio."
+            info: "Campo 'Observação' ausente no relatório."
         });
     }
 }

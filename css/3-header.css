@@ -42,7 +42,7 @@
 }
 
 .app-header.move-top .animated-brand-text {
-    font-size: 2.4rem; /* Aumentado de 2.2 para 2.4 */
+    font-size: 2.4rem; 
 }
 
 .app-header.header-ready .animated-brand-text {
@@ -64,16 +64,31 @@
     right: 30px;
     display: flex;
     gap: 15px;
+    /* CORREÇÃO: Começa invisível novamente */
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.6s ease;
 }
 
+/* CORREÇÃO: Só aparece quando o JS adicionar esta classe */
 .header-actions.visible {
     opacity: 1;
     pointer-events: auto;
 }
 
-.hide-until-login {
-    display: none !important; /* Esconde o botão de config até ao login */
+.icon-btn.hide-until-login {
+    opacity: 0;
+    width: 0;
+    margin-left: -15px; 
+    transform: scale(0.5);
+    pointer-events: none;
+    overflow: hidden;
+}
+
+#btnSair {
+    color: var(--btn-excluir-color);
+}
+
+#btnSair:hover {
+    background-color: var(--error-bg);
 }

@@ -40,11 +40,18 @@ btnSaveConfig.addEventListener('click', () => {
 });
 
 window.copiarTag = function(element) {
-    const texto = element.innerText;
-    navigator.clipboard.writeText(texto);
-    const originalText = element.innerText;
-    element.innerText = "Copiado! \u2714\uFE0F";
+    // 1. Armazena a tag original na primeira vez que for clicada
+    const textoOriginal = element.getAttribute('data-tag') || element.innerText;
+    
+    if (!element.getAttribute('data-tag')) {
+        element.setAttribute('data-tag', textoOriginal);
+    }
+
+    // 2. Copia o texto original, ignorando se estiver escrito "Copiado!"
+    navigator.clipboard.writeText(textoOriginal);
+    
+    element.innerText = "Copiado! ✔️";
     setTimeout(() => {
-        element.innerText = originalText;
+        element.innerText = textoOriginal;
     }, 1000);
 }

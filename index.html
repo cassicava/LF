@@ -29,7 +29,8 @@
         <div class="header-actions" id="headerActions">
             <button id="btnConfig" class="icon-btn hide-until-login" title="Personalizar Mensagem">📧</button>
             <button id="btnTheme" class="icon-btn" title="Alternar Tema">☀️</button>
-            <button id="btnTermos" class="icon-btn" title="Termos de Uso">❓</button>
+            <button id="btnTermos" class="icon-btn" title="Termos de Uso">⚖️</button>
+            <button id="btnSair" class="icon-btn hide-until-login" title="Sair do Sistema">⏻</button>
         </div>
     </header>
 
@@ -39,12 +40,12 @@
             <p class="form-subtitle">Insira as suas credenciais para entrar.</p>
             
             <div class="form-group">
-                <label>E-mail</label>
-                <input type="email" placeholder="seu@email.com" autocomplete="email">
+                <label>Usuário</label>
+                <input type="text" id="inputUsuario" placeholder="nome ou documento" maxlength="20" autocomplete="off" oninput="this.value = this.value.toLowerCase().replace(/\s/g, '')">
             </div>
             <div class="form-group">
                 <label>Senha</label>
-                <input type="password" placeholder="••••••••">
+                <input type="password" id="inputSenha" placeholder="••••••" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             </div>
             
             <button id="btnEntrar" class="login-btn-submit">Entrar</button>
@@ -63,11 +64,12 @@
             <div id="dropZone" class="drop-zone">
                 <div class="text-container">
                     <h2 id="dropTitle">
-                        <span class="drop-emoji-large">📄</span>
+                        <span class="drop-emoji-large" id="dropEmojiIcon" title="Clique para selecionar o arquivo">📄</span>
                         Solte o PDF
                     </h2>
-                    <p id="dropSubtitle">Arraste o seu agendamento para cá</p>
+                    <p id="dropSubtitle">Arraste o agendamento para cá ou clique no documento</p>
                 </div>
+                <input type="file" id="fileInput" accept="application/pdf" style="display: none;">
             </div>
             <button id="btnExcluir" class="btn-excluir">Excluir Arquivo</button>
         </div>
@@ -97,12 +99,11 @@
         <button class="btn-fechar-overlay" id="btnFecharTermos" title="Fechar">✖</button>
         <div class="termos-cards-wrapper">
             <div class="termo-card">
-                <h3 class="termo-title">🔒 LEMBRETES FÁCIL — TERMOS DE USO</h3>
+                <h3 class="termo-title">🔒 TERMOS DE USO</h3>
                 <div class="termo-text">
-                    <p><strong>Licenciante:</strong> Lembretes Fácil<br>
                     <hr>
                     <h4>1. Natureza do Software e Armazenamento de Dados</h4>
-                    <p>O Lembretes Fácil é uma aplicação que opera <strong>exclusivamente neste programa, instalado no seu computador</strong>.</p>
+                    <p>O Lembretes Fácil é uma aplicação que opera <strong>exclusivamente rodando no seu computador</strong>.</p>
                     <p><strong>Todos os dados inseridos</strong> (como PDFs de agendamento) são lidos em tempo real e descartados quando a aba é fechada ou o arquivo é excluído. As personalizações são <strong>armazenadas localmente</strong> no seu dispositivo.</p>
                     <p>Nenhum dado do paciente é enviado ou armazenado em servidores externos.</p>
                     <hr>
@@ -110,7 +111,7 @@
                     <p>As mensagens geradas são enviadas usando o WhatsApp local. É da responsabilidade do utilizador garantir que os lembretes são direcionados aos pacientes corretos e que o conteúdo respeita as regras da clínica.</p>
                     <hr>
                     <h4>3. Isenção de Garantias</h4>
-                    <p>O Software é fornecido para auxiliar a produtividade. O utilizador deve conferir as informações extraídas do PDF antes do envio. O Licenciante não se responsabiliza por dados incorretos preenchidos na base original do agendamento.</p>
+                    <p>O Software é fornecido para auxiliar a produtividade. O utilizador deve conferir as informações extraídas do PDF antes do envio. O criador do sistema não se responsabiliza por dados incorretos preenchidos na base original do agendamento.</p>
                 </div>
             </div>
             
@@ -141,6 +142,7 @@
     <script src="js/D-pdf.js"></script>
     <script src="js/E-botoes.js"></script>
     <script src="js/F-animacoes.js"></script>
+    <script src="js/H-usuarios.js"></script>
     <script src="js/G-login.js"></script>
 </body>
 </html>

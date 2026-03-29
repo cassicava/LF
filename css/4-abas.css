@@ -1,6 +1,6 @@
 .floating-tabs {
     position: fixed;
-    top: 10px;
+    top: 20px; /* Começa um pouco mais acima */
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--glass-bg);
@@ -12,11 +12,23 @@
     box-shadow: 0 4px 20px var(--shadow-color);
     display: flex;
     gap: 10px;
+    
+    /* CORREÇÃO: Fica totalmente invisível e intocável antes do PDF */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    
     transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 100;
 }
 
-.floating-tabs.active { top: 105px; }
+.floating-tabs.active { 
+    top: 105px; 
+    /* CORREÇÃO: Fica visível apenas quando ganha a classe 'active' */
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
 
 .active-bg {
     position: absolute;
@@ -40,18 +52,28 @@ body[data-active-tab="erros"] .active-bg {
 
 .tab-btn {
     position: relative;
-    background-color: transparent;
+    background: transparent;
     border: none;
-    padding: 10px 25px;
-    border-radius: 40px;
-    color: var(--text-muted);
-    font-weight: bold;
+    padding: 12px 24px;
     font-size: 1rem;
-    transition: all 0.3s ease;
-    z-index: 1;
+    font-weight: bold;
+    color: var(--text-muted);
     cursor: pointer;
+    border-radius: 40px;
+    transition: color 0.3s ease;
+    z-index: 1;
 }
 
-.tab-btn:hover:not(.disabled) { color: var(--text-color); }
-.tab-btn.active { color: #ffffff !important; }
-.tab-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+.tab-btn.active {
+    color: #ffffff;
+}
+
+.tab-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Efeito de hover suave para abas não ativas */
+.tab-btn:not(.active):not(.disabled):hover {
+    color: var(--text-color);
+}

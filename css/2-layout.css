@@ -1,3 +1,13 @@
+/* ==================================================== */
+/* CLASSE UTILITÁRIA DE OCULTAÇÃO (CORREÇÃO DO BUG)     */
+/* ==================================================== */
+.app-hidden {
+    display: none !important;
+}
+
+/* ==================================================== */
+/* ESTRUTURA PRINCIPAL                                  */
+/* ==================================================== */
 .app-container {
     display: flex;
     width: 100%;
@@ -25,9 +35,7 @@
 
 .content-area {
     width: 0;
-    /* Define que a área de scroll começa fisicamente 100px abaixo do topo do container */
     margin-top: 100px; 
-    /* Calcula a altura para o scroll não sumir lá embaixo (100vh - header - margem topo lista - folga bot) */
     height: calc(100vh - 85px - 100px - 40px); 
     opacity: 0;
     overflow-x: hidden !important;
@@ -35,10 +43,9 @@
     scrollbar-gutter: stable;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 8px; /* Mantive o gap de 8px para o seu visual compacto */
     transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
     
-    /* Fade ajustado para a nova posição física */
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
     mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
 }
@@ -47,29 +54,23 @@
     width: 100%;
     flex-grow: 1;
     opacity: 1;
-    /* Padding interno menor, pois a margem externa já posicionou a caixa no lugar certo */
     padding: 10px 10px 20px 0; 
 }
 
-/* Estilização da Scrollbar para não ficar "colada" no topo */
-::-webkit-scrollbar { 
-    width: 8px; 
+/* Estilização da barra de rolagem para combinar com o visual limpo */
+.content-area::-webkit-scrollbar {
+    width: 8px;
 }
 
-::-webkit-scrollbar-thumb {
-    background: var(--text-muted);
-    border-radius: 20px;
-    opacity: 0.5;
+.content-area::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-::-webkit-scrollbar-track {
-    /* Dá um espaço para a scrollbar não começar grudada no menu */
-    margin-top: 10px; 
-    margin-bottom: 10px;
+.content-area::-webkit-scrollbar-thumb {
+    background-color: var(--header-border);
+    border-radius: 10px;
 }
 
-.app-hidden {
-    opacity: 0 !important;
-    pointer-events: none !important;
-    transform: translateY(30px) !important;
+.content-area::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-muted);
 }

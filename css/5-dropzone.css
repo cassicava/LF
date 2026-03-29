@@ -26,18 +26,17 @@
     border-color: transparent !important;
 }
 
-/* Ajuste da borda giratória: traços maiores e rotação bem visível */
 .drop-zone.dragover::before,
 .drop-zone.processing::before {
     content: "";
     position: absolute;
-    top: -5px; /* Levemente para fora para não encostar no círculo */
+    top: -5px; 
     left: -5px;
     right: -5px;
     bottom: -5px;
-    border: 4px dashed var(--primary-color); /* Mais grosso (4px) e tracejado */
+    border: 4px dashed var(--primary-color); 
     border-radius: 50%;
-    animation: spin 12s linear infinite; /* Bem mais lento (12 segundos) */
+    animation: spin 12s linear infinite; 
     pointer-events: none;
 }
 
@@ -47,31 +46,76 @@
     border: 2px solid var(--glass-border);
     border-radius: 50%;
     box-shadow: 0 4px 15px var(--shadow-color);
+    border-color: var(--glass-border);
+    background-color: transparent;
 }
 
-.drop-zone.error-state {
-    border: 2px solid var(--btn-excluir-color);
-    background-color: var(--error-bg);
-}
-
-.text-container {
+.text-container h2 {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    margin: 0;
+    transition: all 0.4s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 100%;
+    gap: 10px;
 }
 
-#dropTitle {
-    font-size: 1.4rem;
-    margin-bottom: 12px;
-    color: var(--text-color);
-    transition: all 0.4s ease;
-    z-index: 2;
-}
-
-#dropSubtitle {
-    font-size: 1rem;
+/* CORREÇÃO: Alinhamento e quebra de linha elegante para o texto de arrastar */
+.text-container p {
     color: var(--text-muted);
-    z-index: 2;
+    margin-top: 10px;
+    font-size: 1rem;
+    transition: all 0.4s ease;
+    line-height: 1.5;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.drop-emoji-large {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.drop-emoji-large:hover {
+    transform: scale(1.15) rotate(-5deg);
+}
+
+.drop-zone.dragover .drop-emoji-large {
+    pointer-events: none;
+}
+
+.doctor-emoji {
+    font-size: 4.5rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.doctor-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.doctor-specialty {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+/* CORREÇÃO: Removido o absolute. Agora a data segue o fluxo normal do painel sem encavalar */
+.doctor-date {
+    background: var(--primary-color);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    margin-bottom: 5px;
 }

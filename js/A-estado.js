@@ -21,6 +21,7 @@ const msgTemplateInput = document.getElementById('msgTemplateInput');
 let state = {
     medicoNome: "",
     medicoEspecialidade: "",
+    medicoGenero: "", // Novo controlador explícito de Gênero (M ou F)
     dataConsulta: "",
     pendentes: [],
     enviados: [],
@@ -35,7 +36,7 @@ let hasDocument = false;
 let clicksNeeded = Math.floor(Math.random() * 11) + 10;
 let currentClicks = 0;
 
-const wDocM = '\uD83D\uDC68\u200D\u2695\uFE0F';
-const wDocF = '\uD83D\uDC69\u200D\u2695\uFE0F';
+const wDocM = '👨🏻‍⚕️';
+const wDocF = '👩🏼‍⚕️';
 
 const templatePadrao = "Ol\xE1, *{{nome}}* \uD83D\uDC4B\n\nLEMBRETE DE CONSULTA:\n\n\uD83D\uDCC5 Data: *{{data}}*\n\u23F0 Hor\xE1rio: *{{horario}}*\n{{emoji_medico}} Profissional: *{{medico}}*\n\nInforma\xE7\xF5es importantes:\n\n\u2022 Menores de idade: \xE9 obrigat\xF3rio o comparecimento com um respons\xE1vel legal.\n\u2022 Idosos: recomenda-se a presen\xE7a de um acompanhante.\n\u2022 Exames: traga todos, inclusive de outras unidades.\n\u2022 Primeira consulta: \xE9 necess\xE1rio apresentar o encaminhamento m\xE9dico (se houver).\n\nEm caso de d\xFAvidas ou necessidade de reagendamento, entre em contato conosco.\nAguardamos voc\xEA! \uD83D\uDE42";
