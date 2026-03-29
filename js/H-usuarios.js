@@ -8,6 +8,10 @@ const usuariosHabilitados = [
     },
     {
         usuario: "cassiano",
+        senha: "592600"
+    },
+    {
+        usuario: "fernanda",
         senha: "123456"
     }
     /* ========================================================
